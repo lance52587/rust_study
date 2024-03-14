@@ -1,0 +1,1 @@
+/home/vsc/chap7/restaurant5/target/debug/librestaurant5.rlib: /home/vsc/chap7/restaurant5/src/front_of_house/hosting.rs /home/vsc/chap7/restaurant5/src/front_of_house.rs /home/vsc/chap7/restaurant5/src/lib.rs

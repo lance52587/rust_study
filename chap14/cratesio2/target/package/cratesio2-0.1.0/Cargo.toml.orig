@@ -1,0 +1,11 @@
+[package]
+name = "cratesio2"
+version = "0.1.0"
+authors = ["Lance <lanceyliao@gmail.com>"]
+edition = "2021"
+description = "A cratesio2"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
