@@ -20,4 +20,20 @@ fn main() {
    } else {
        println!("Using blue as the background color");
     }
+
+    // while let 条件循环
+    let mut stack = Vec::new();
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+
+    while let Some(top) = stack.pop() {
+        println!("{}", top);
+    }
+
+    // for 循环
+    let v = vec!['a', 'b', 'c'];
+    for (index, value) in v.iter().enumerate() {
+        println!("{} is at index {}", value, index);
+    }
 }
