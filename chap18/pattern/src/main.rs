@@ -36,4 +36,15 @@ fn main() {
     for (index, value) in v.iter().enumerate() {
         println!("{} is at index {}", value, index);
     }
+
+    // let语句
+    let (x, y, z) = (1, 2, 3);
+
+    // 函数的参数
+    fn print_coordinates(&(x, y): &(i32, i32)) {
+        println!("Current location: ({}, {})", x, y);
+    }
+
+    let point = (3, 5);
+    print_coordinates(&point);
 }
