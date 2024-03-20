@@ -18,4 +18,27 @@ fn main() {
     }
 
     println!("at the end: x = {:?}, y = {:?}", x, y); // match表达式创建出来的作用域会随着当前表达式的结束而结束，而它内部的y自然也无法幸免
+
+    let x = 1;
+
+    match x {
+        1 | 2 => println!("one or two"), // | 运算符可以用来匹配多个模式
+        3 => println!("three"),
+        _ => println!("anything"),
+    }
+
+    let x = 5;
+
+    match x {
+        1..=5 => println!("one through five"), // ..= 运算符可以用来匹配一个范围
+        _ => println!("something else"),
+    }
+
+    let x = 'c';
+
+    match x {
+        'a'..='j' => println!("early ASCII letter"), 
+        'k'..='z' => println!("late ASCII letter"),
+        _ => println!("something else"),
+    }
 }
