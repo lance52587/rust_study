@@ -79,6 +79,37 @@ fn main() {
 
     let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
     println!("feet: {}, inches: {}, x: {}, y: {}", feet, inches, x, y);
+
+    // 使用_忽略整个值
+    foo(3, 4);
+
+    // 使用嵌套的_忽略值的某些部分
+    let mut setting_value = Some(5);
+    let new_setting_value = Some(10);
+    // let new_setting_value = None;
+
+    match (setting_value, new_setting_value) {
+        (Some(_), Some(_)) => {
+            println!("Can't overwrite an existing customized value");
+        },
+        _ => {
+            setting_value = new_setting_value;
+        },
+    }
+
+    println!("setting is {:?}", setting_value);
+
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, _, third, _, fifth) => {
+            println!("Some numbers: {}, {}, {}", first, third, fifth);
+        },
+    }
+}
+
+fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {}", y);
 }
 
 struct Point {
