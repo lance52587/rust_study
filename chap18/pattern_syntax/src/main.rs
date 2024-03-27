@@ -37,7 +37,7 @@ fn main() {
     let x = 'c';
 
     match x {
-        'a'..='j' => println!("early ASCII letter"), 
+        'a'..='j' => println!("early ASCII letter"),
         'k'..='z' => println!("late ASCII letter"),
         _ => println!("something else"),
     }
@@ -70,10 +70,13 @@ fn main() {
         // },
         Message::ChangeColor(Color::Rgb(r, g, b)) => {
             println!("Change the color to red {}, green {}, and blue {}", r, g, b)
-        },
+        }
         Message::ChangeColor(Color::Hsv(h, s, v)) => {
-            println!("Change the color to hue {}, saturation {}, and value {}", h, s, v)
-        },
+            println!(
+                "Change the color to hue {}, saturation {}, and value {}",
+                h, s, v
+            )
+        }
         _ => (),
     }
 
@@ -91,10 +94,10 @@ fn main() {
     match (setting_value, new_setting_value) {
         (Some(_), Some(_)) => {
             println!("Can't overwrite an existing customized value");
-        },
+        }
         _ => {
             setting_value = new_setting_value;
-        },
+        }
     }
 
     println!("setting is {:?}", setting_value);
@@ -104,8 +107,36 @@ fn main() {
     match numbers {
         (first, _, third, _, fifth) => {
             println!("Some numbers: {}, {}, {}", first, third, fifth);
-        },
+        }
     }
+
+    let _x = 5; // _x语法仍然将值绑定到了变量上
+    let y = 10;
+
+    println!("x = {}", _x);
+    println!("y = {}", y);
+
+    let s = Some(String::from("Hello!"));
+    if let Some(ref _s) = s {// 使用ref关键字来创建一个引用
+        println!("found a string");
+        println!("{:?}", _s);
+    }
+    // 在这里继续使用 s
+    println!("{:?}", s);
+
+    if let Some(_s) = s {
+        println!("found a string");
+        println!("{:?}", _s);
+    }
+
+    // println!("{:?}", s); // 这里s的所有权已经被if let语句中的Some(_s)所获取，所以这里无法再使用s
+    // println!("{:?}", _s); // 同样，这里也无法使用_s
+
+    let s = Some(String::from("Hello!"));
+    if let Some(_) = s {
+        println!("found a string");
+    }
+    println!("{:?}", s);
 }
 
 fn foo(_: i32, y: i32) {
