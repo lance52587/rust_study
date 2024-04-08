@@ -46,6 +46,11 @@ extern "C"{
     fn abs(input: i32) -> i32;
 }
 
+#[no_mangle]
+pub extern "C" fn call_from_c(){
+    println!("Just called a Rust function from C!");
+}
+
 use std::slice;
 fn split_at_mut(slice: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]){
     let len = slice.len();
