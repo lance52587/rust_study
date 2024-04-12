@@ -95,7 +95,35 @@ impl fmt::Display for Point{
     }
 }
 
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+// 假如我们希望新类型具有内部类型的所有方法，那么我们也可以为Wrapper实现Deref trait（在第15章的“通过Deref trait将智能指针视作常规引用”一节曾经讨论过这一技术）来直接返回内部的类型。
+// 通过实现Deref trait，我们可以编写一个返回内部类型的实例的方法，这样我们就可以调用内部类型的方法了。
+use std::ops::Deref;
+
+impl Deref for Wrapper{
+    type Target = Vec<String>;
+
+    fn deref(&self) -> &Self::Target{
+        &self.0
+    }
+}
+
 fn main() {
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
+    // println!("w = {:?}", w);// error: the trait `std::fmt::Debug` is not implemented for `Wrapper`
+
+    // 使用内部类型的方法
+    let vec = w.deref();
+    println!("vec = {:?}", vec);
+
     let p = Point { x: 1, y: 2 };
     p.outline_print();
 
