@@ -30,7 +30,29 @@ pub trait Write {
     fn write_fmt(&mut self, fmt: fmt::Arguments) -> Result<()>;
 }
 
+fn bar() -> ! {
+}
+
+impl<T> Option<T> {
+    pub fn unwrap(self) -> T {
+        match self {
+            Some(val) => val,
+            None => panic!("called `Option::unwrap()` on a `None` value"),// panic!宏，返回值是!
+        }
+    }
+}
+
 fn main() {
+    let guess: u32 = match guess.trim().parse() {// trim()去掉空格
+        Ok(num) => num,
+        Err(_) => continue,// 返回值是!
+    };
+
+    print!("forever ");
+    loop {// loop是无限循环，返回值是!或者break
+        print!("and ever ");
+    }
+
     type Kilometers = i32;
 
     let x: i32 = 5;
