@@ -42,7 +42,17 @@ impl<T> Option<T> {
     }
 }
 
+// fn generic<T>(T: ?Sized) {
+fn generic<T: Sized>(t: T) {
+    // --snip--
+}
+
+fn generic
+
 fn main() {
+    // let s1: str = "Hello there!";// 应该为&str
+    // let s2: str = "How's it going?";
+
     let guess: u32 = match guess.trim().parse() {// trim()去掉空格
         Ok(num) => num,
         Err(_) => continue,// 返回值是!
