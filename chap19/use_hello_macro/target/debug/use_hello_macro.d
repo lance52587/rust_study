@@ -1,0 +1,1 @@
+/home/rust_study/chap19/use_hello_macro/target/debug/use_hello_macro: /home/rust_study/chap19/hello_macro/hello_macro_derive/src/lib.rs /home/rust_study/chap19/hello_macro/src/lib.rs /home/rust_study/chap19/use_hello_macro/src/main.rs
