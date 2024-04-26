@@ -1,6 +1,7 @@
 use std::net::TcpListener;
 use std::net::TcpStream;
 use std::io::prelude::*;// prelude表示预导入，这里导入了io模块的所有内容
+use std::fs;// 用于读取文件
 
 fn main() {
     let listener = TcpListener::bind("localhost:7878").unwrap();
@@ -22,7 +23,8 @@ fn handle_connection(mut stream: TcpStream) {// TcpStream的内部状态是可�
     // lossy表示如果slice中包含无效的UTF-8序列，将替换为U+FFFD REPLACEMENT CHARACTER
 
     let response = "HTTP/1.1 200 OK\r\n\r\n";// HTTP响应头
-    let contents = "Hello, world!";// HTTP响应体
+    // let contents = "Hello, world!";// HTTP响应体
+    let contents = fs::read_to_string("hello.html").unwrap();// 读取文件内容
 
     let response = format!("{}{}", response, contents);// format!宏用于创建一个字符串，这里用于将响应头和响应体拼接成一个字符串
 
