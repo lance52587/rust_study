@@ -33,19 +33,29 @@ fn handle_connection(mut stream: TcpStream) {// TcpStream的内部状态是可�
     // stream.flush().unwrap();// flush调用会等待并阻止程序继续运行直到所有字节都被写入连接中❹；为了减少对底层操作系统的调用，TcpStream的实现中包含了一个内部缓冲区。
     let get = b"GET / HTTP/1.1\r\n";
 
-    if buffer.starts_with(get){// 由于缓冲区中接收的数据是原始字节，所以我们使用字节字符串语法b""将get的文本内容转换为字节字符串
-        let contents = fs::read_to_string("hello.html").unwrap();// 读取文件内容
-        let response = format!("HTTP/1.1 200 OK\r\n\r\n{}", contents);
-        stream.write(response.as_bytes()).unwrap();// stream的write方法只接收&[u8]类型值作为参数❸，所以我们需要调用response的as_bytes方法来将它的字符串转换为字节
-        // 并将这些字节发送到连接中去
-        stream.flush().unwrap();// flush调用会等待并阻止程序继续运行直到所有字节都被写入连接中❹；为了减少对底层操作系统的调用，TcpStream的实现中包含了一个内部缓冲区。
+    // if buffer.starts_with(get){
+    //     let contents = fs::read_to_string("hello.html").unwrap();
+    //     let response = format!("HTTP/1.1 200 OK\r\n\r\n{}", contents);
+    //     stream.write(response.as_bytes()).unwrap();
+    //     stream.flush().unwrap();
+    // } else{
+    //     let status_line = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
+    //     let contents = fs::read_to_string("404.html").unwrap();
+
+    //     let response = format!("{}{}", status_line, contents);
+
+    //     stream.write(response.as_bytes()).unwrap();
+    //     stream.flush().unwrap();
+    // }
+
+    let (status_line, filename) = if buffer.starts_with(get){
+        ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
     } else{
-        let status_line = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
-        let contents = fs::read_to_string("404.html").unwrap();// 读取文件内容
+        ("HTTP/1.1 404 NOT FOUND\r\n\r\n", "404.html")
+    };
 
-        let response = format!("{}{}", status_line, contents);
-
-        stream.write(response.as_bytes()).unwrap();
-        stream.flush().unwrap();
-    }
+    let contents = fs::read_to_string(filename).unwrap();
+    let response = format!("{}{}", status_line, contents);
+    stream.write(response.as_bytes()).unwrap();
+    stream.flush().unwrap();
 }
