@@ -33,13 +33,17 @@ fn handle_connection(mut stream: TcpStream){
 
 fn main() {
     let listener = TcpListener::bind("localhost:7878").unwrap();
+    let pool = ThreadPool::new(4);
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
         // println!("Connection established!");
         // handle_connection(stream);
-        thread::spawn(|| {// spawn方法创建一个新线程，并在新线程中运行闭包中的代码
+        // thread::spawn(|| {// spawn方法创建一个新线程，并在新线程中运行闭包中的代码
+        //     handle_connection(stream);
+        // });
+        pool.execute(|| {// pool.execute的接口与thread::spawn的完全一致，它会接收一个处理所有流的闭包
             handle_connection(stream);
         });
     }
