@@ -73,7 +73,7 @@ impl Worker {
     // fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(|| {
-            receiver.recv();
+            receiver;
         });
         Worker {
             id,
