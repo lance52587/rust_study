@@ -31,7 +31,7 @@ impl ThreadPool {
             workers.push(Worker::new(id));
         }
         ThreadPool {
-            threads
+            workers
         }
     }
 
