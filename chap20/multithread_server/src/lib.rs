@@ -34,7 +34,8 @@ impl ThreadPool {
         // for _ in 0..size {
         for id in 0..size {
             // 创建线程并将他们存储至动态数组中
-            workers.push(Worker::new(id));
+            // workers.push(Worker::new(id));
+            workers.push(Worker::new(id, receiver));
         }
         ThreadPool {
             workers,
@@ -63,8 +64,11 @@ struct Worker {
 }
 
 impl Worker {
-    fn new(id: usize) -> Worker {
-        let thread = thread::spawn(|| {});
+    // fn new(id: usize) -> Worker {
+    fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
+        let thread = thread::spawn(|| {
+            receiver.recv();
+        });
         Worker {
             id,
             thread,
