@@ -1,10 +1,14 @@
 use std::thread;
+use std::sync::mpsc;
 
 // pub struct ThreadPool;
 pub struct ThreadPool {
     // threads: Vec<thread::JoinHandle<()>>,
     workers: Vec<Worker>,
+    sender: mpsc::Sender<Job>,
 }
+
+struct Job;
 
 impl ThreadPool {
     /// 创建线程池
@@ -21,6 +25,8 @@ impl ThreadPool {
     // 返回Result类型，而不是直接panic
     // pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
 
+        let (sender, receiver) = mpsc::channel();
+
         // let mut threads = Vec::with_capacity(size);
         let mut workers = Vec::with_capacity(size);
         // 与Vec::new有些类似，但区别在于with_capacity会为动态数组预分配出指定的空间。
@@ -31,7 +37,8 @@ impl ThreadPool {
             workers.push(Worker::new(id));
         }
         ThreadPool {
-            workers
+            workers,
+            sender,
         }
     }
 
