@@ -1,5 +1,7 @@
 use std::thread;
 use std::sync::mpsc;
+use std::sync::Arc;
+use std::sync::Mutex;
 
 // pub struct ThreadPool;
 pub struct ThreadPool {
@@ -27,6 +29,8 @@ impl ThreadPool {
 
         let (sender, receiver) = mpsc::channel();
 
+        let receiver = Arc::new(Mutex::new(receiver));
+
         // let mut threads = Vec::with_capacity(size);
         let mut workers = Vec::with_capacity(size);
         // 与Vec::new有些类似，但区别在于with_capacity会为动态数组预分配出指定的空间。
@@ -35,7 +39,8 @@ impl ThreadPool {
         for id in 0..size {
             // 创建线程并将他们存储至动态数组中
             // workers.push(Worker::new(id));
-            workers.push(Worker::new(id, receiver));
+            // workers.push(Worker::new(id, receiver));
+            workers.push(Worker::new(id, Arc::clone(&receiver)));
         }
         ThreadPool {
             workers,
@@ -65,7 +70,8 @@ struct Worker {
 
 impl Worker {
     // fn new(id: usize) -> Worker {
-    fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
+    // fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(|| {
             receiver.recv();
         });
