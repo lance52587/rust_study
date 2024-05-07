@@ -8,8 +8,12 @@ impl ThreadPool {
     /// # Panics
     /// 
     /// `new` 函数在 size 为 0 时会 panic
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
+    
+    // 使用assert!宏来断言size大于0
+    // pub fn new(size: usize) -> ThreadPool {
+    //     assert!(size > 0);
+    // 返回Result类型，而不是直接panic
+    pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
         ThreadPool
     }
 
