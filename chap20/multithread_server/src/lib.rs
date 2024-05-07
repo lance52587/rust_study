@@ -10,8 +10,7 @@ pub struct ThreadPool {
     sender: mpsc::Sender<Job>,
 }
 
-struct Job;
-
+// struct Job;
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 impl ThreadPool {
@@ -77,9 +76,22 @@ impl Worker {
     // fn new(id: usize) -> Worker {
     // fn new(id: usize, receiver: mpsc::Receiver<Job>) -> Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(|| {
-            receiver;
+        // let thread = thread::spawn(|| {
+        //     receiver;
+        // });
+        let thread = thread::spawn(move || {
+            loop {
+                let job = receiver.lock().unwrap().recv().unwrap();
+                // lock请求互斥锁，recv从通道中接收消息，unwrap处理错误
+                // recv会阻塞线程直到有消息可用
+                // Mutex<T>是一个智能指针，它允许我们在运行时获取互斥锁，保证只有一个线程能访问T
+
+                println!("Worker {} got a job; executing.", id);
+
+                job();
+            }
         });
+
         Worker {
             id,
             thread,
