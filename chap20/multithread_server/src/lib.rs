@@ -1,4 +1,9 @@
-pub struct ThreadPool;
+use std::thread;
+
+// pub struct ThreadPool;
+pub struct ThreadPool {
+    threads: Vec<thread::JoinHandle<()>>,
+}
 
 impl ThreadPool {
     /// 创建线程池
@@ -10,11 +15,20 @@ impl ThreadPool {
     /// `new` 函数在 size 为 0 时会 panic
     
     // 使用assert!宏来断言size大于0
-    // pub fn new(size: usize) -> ThreadPool {
-    //     assert!(size > 0);
+    pub fn new(size: usize) -> ThreadPool {
+        assert!(size > 0);
     // 返回Result类型，而不是直接panic
-    pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
-        ThreadPool
+    // pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
+
+        let mut threads = Vec::with_capacity(size);
+        // 与Vec::new有些类似，但区别在于with_capacity会为动态数组预分配出指定的空间。
+        // 在知晓存储大小的前提下预先分配存储空间要比使用Vec::new在插入时动态扩展大小更有效率一些。
+        for _ in 0..size {
+            // 创建线程并将他们存储至动态数组中
+        }
+        ThreadPool {
+            threads
+        }
     }
 
     // thread::spawn的函数签名
