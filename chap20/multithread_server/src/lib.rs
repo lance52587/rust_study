@@ -3,7 +3,7 @@ use std::thread;
 // pub struct ThreadPool;
 pub struct ThreadPool {
     // threads: Vec<thread::JoinHandle<()>>,
-    threads: Vec<Worker>,
+    workers: Vec<Worker>,
 }
 
 impl ThreadPool {
