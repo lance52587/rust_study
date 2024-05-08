@@ -80,6 +80,11 @@ impl Worker {
         //     receiver;
         // });
         let thread = thread::spawn(move || {
+            // while let Ok(job) = receiver.lock().unwrap().recv() {
+            // 锁的所有权依赖于lock方法返回的MutexGuard的生命周期，这种用法会使得job()调用时锁仍然被持有，其他线程无法正常地接受任务
+            //     println!("Worker {} got a job; executing.", id);
+            //     job();
+            // }
             loop {
                 let job = receiver.lock().unwrap().recv().unwrap();
                 // lock请求互斥锁，recv从通道中接收消息，unwrap处理错误
