@@ -41,7 +41,9 @@ impl Drop for ThreadPool {
         for worker in &mut self.workers {
             println!("Shutting down worker {}", worker.id);
 
-            worker.thread.join().unwrap();// 假如join调用失败，随后的unwrap就会触发panic并进入不那么优雅的关闭过程。
+            // worker.thread.join().unwrap();// 假如join调用失败，随后的unwrap就会触发panic并进入不那么优雅的关闭过程。
+            if let Some(thread) = worker.thread.take() {
+                thread.join().unwrap();
         }
     }
 }
@@ -63,6 +65,9 @@ impl Worker {
             job();
         });
 
-        Worker { id, thread }
+        Worker { id, 
+            // thread 
+            thread: Some(thread)
+        }
     }
 }
