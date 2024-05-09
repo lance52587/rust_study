@@ -41,14 +41,16 @@ impl Drop for ThreadPool {
         for worker in &mut self.workers {
             println!("Shutting down worker {}", worker.id);
 
-            worker.thread.join().unwrap();
+            worker.thread.join().unwrap();// 假如join调用失败，随后的unwrap就会触发panic并进入不那么优雅的关闭过程。
         }
     }
 }
 
 struct Worker {
     id: usize,
-    thread: thread::JoinHandle<()>,
+    // thread: thread::JoinHandle<()>,
+    thread: Option<thread::JoinHandle<()>>,
+    // 在Option上调用take方法来将Some变体的值移出来，并在原来的位置留下None变体。从而使Worker失去可以运行的线程。
 }
 
 impl Worker {
