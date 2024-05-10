@@ -81,6 +81,7 @@ impl Worker {
                         println!("Worker {} was told to terminate.", id);
                         break;
                     }
+                }
             }
         });
 
