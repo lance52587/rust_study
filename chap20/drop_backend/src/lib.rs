@@ -92,9 +92,10 @@ impl Worker {
             }
         });
 
-        Worker { id, 
-            // thread 
-            thread: Some(thread)
+        Worker {
+            id,
+            // thread
+            thread: Some(thread),
         }
     }
 }
